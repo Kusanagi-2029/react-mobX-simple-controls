@@ -67,8 +67,8 @@
   - MobX-store'ы = `ViewModel`,
 - переиспользованы общие части контролов, как внутри модулей каждого из контролов, так и в shared: ui (input-поле, навигационные кнопки, заголовок), хуки (один, для определения мобильного или десктоп-устройства - `useDeviceDetect`), интерфейсы и т.п.
 - для стилизации использован чистый css, подключаемый в качестве модулей к tsx-файлам,
-  > [!TIP]
-  > Всё responsive и адаптировано под **мобильные/вертикальные** экраны
+> [!TIP]
+> Всё responsive и адаптировано под **мобильные/вертикальные** экраны
 
 ## Установка и запуск
 
@@ -129,9 +129,102 @@ serve -s build
 > Это неотвратимая операция `eject`!
 
 ## DEMO
+![Скрин 1](https://github.com/user-attachments/assets/8a976bf0-c23d-4ef4-a885-010ee557d81e)
+
+![Скрин 2](https://github.com/user-attachments/assets/4d93996f-c8a3-4b2a-888b-609fafa31485)
+
+Убраны дубликаты данных - кейс "Австралия":
+![Скрин 3 - Дубликаты](https://github.com/user-attachments/assets/f0b9643d-7495-43cb-b6d8-c15282ec4baf)
 
 ### Видео
 
 Видео с демо функционала работающего приложения (с условием изолированности логики и вёрстки):
 Доступ по ссылке:
-- https://youtu.be/NtdkXLZBUVA
+- [https://youtu.be/NtdkXLZBUVA](https://youtu.be/wPfKFoOb6PI)
+
+
+### Store
+Введены два mobX-стора для каждого из контролов:
+1) `autoCompleteControlStore.ts`:
+```tsx
+import {
+  action,
+  makeAutoObservable,
+  observable,
+  runInAction,
+} from 'mobx';
+import { getCountryByName } from '../api/apiService';
+import { ICountry } from '../_types/interfaces';
+
+class AutoCompleteControlStore {
+  @observable
+  inputValue: string = '';
+
+  @observable
+  suggestions: ICountry[] = [];
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  @action
+  setInputValue(value: string) {
+    this.inputValue = value;
+    this.fetchSuggestions();
+  }
+
+  async fetchSuggestions() {
+    if (this.inputValue) {
+      const suggestions = await getCountryByName(this.inputValue);
+      runInAction(() => {
+        this.setSuggestions(suggestions);
+      });
+    } else {
+      runInAction(() => {
+        this.setSuggestions([]);
+      });
+    }
+  }
+
+  @action
+  setSuggestions(suggestions: ICountry[]) {
+    this.suggestions = suggestions;
+  }
+}
+
+const autoCompleteControlStore = new AutoCompleteControlStore();
+export default autoCompleteControlStore;
+
+```
+
+2) `buttonControlStore.ts`:
+```tsx
+import { action, makeAutoObservable, observable } from 'mobx';
+
+class ButtonControlStore {
+  @observable
+  inputValue: string = '';
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  @action
+  setInputValue(value: string) {
+    this.inputValue = value;
+  }
+
+  @action
+  clearInput() {
+    this.inputValue = '';
+  }
+
+  @action
+  setHelloWorld() {
+    this.inputValue = 'Hello world!';
+  }
+}
+
+const buttonControlStore = new ButtonControlStore();
+export default buttonControlStore;
+```
