@@ -290,7 +290,7 @@ export default useDeviceDetect;
 ### Utils Helpers
 Также есть общий утил-хэлпер - Debounce-функция `debounce`
 ```ts
-export function debounce<T extends string>(
+export function debounce<T>(
   func: (arg: T) => void,
   delay: number | undefined,
 ): (arg: T) => void {
@@ -307,7 +307,7 @@ export function debounce<T extends string>(
   };
 }
 ```
-Debounce-функция использует дженерики именно для того, чтобы использоваться, например, в связке с input-полями и при этом избегать отключения тайп-чекинга с any.
+Debounce-функция использует дженерики именно для того, чтобы использоваться, например, в связке с input-полями разных типов и при этом избегать отключения тайп-чекинга с any - сохранять строгость типизации, но при этом и гибкость.
 
 Пример использования в приложении:
 ```tsx
