@@ -6,11 +6,11 @@
   - [Скрипты](#скрипты)
   - [DEMO](#demo)
     - [Видео](#видео)
-    - [Изолированность](#изолированность)
+    - [Скриншоты](#скриншоты)
+  - [Пояснения](#пояснения)
     - [Store](#store)
-    - [Анимация](#анимация)
-      - [TimelineContainer](#timelinecontainer)
-      - [updateDatesWithAnimation](#updatedateswithanimation)
+    - [Hooks](#hooks)
+    - [Utils Helpers](#utils-helpers)
     - [Прочее](#прочее)
 - [Архитектура проекта](#архитектура-проекта)
   - [Структура директорий](#структура-директорий)
@@ -161,118 +161,7 @@ serve -s build
 Убраны дубликаты данных - кейс "Австралия":
 ![Скрин 3 - Дубликаты](https://github.com/user-attachments/assets/f0b9643d-7495-43cb-b6d8-c15282ec4baf)
 
-### Hooks
-У приложения есть общий хук для определения типа устройства/экрана - `useDeviceDetect`:
-```ts
-import { useEffect, useState } from 'react';
-
-/**
- * Хук для определения типа устройства (мобильное/десктоп)
- */
-const useDeviceDetect = (): boolean => {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
-  const handleResize = () => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMobileDevice =
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(
-        userAgent,
-      );
-    const mobile = isMobileDevice || window.innerWidth < 840; // Определяем мобильное устройство по ширине экрана и user agent
-    setIsMobile(mobile);
-  };
-
-  useEffect(() => {
-    handleResize(); // Проверяем при первом рендере
-    window.addEventListener('resize', handleResize); // Добавляем обработчик события изменения размера окна
-
-    return () => {
-      window.removeEventListener('resize', handleResize); // Убираем обработчик при размонтировании
-    };
-  }, []);
-
-  return isMobile;
-};
-
-export default useDeviceDetect;
-```
-
-### Utils Helpers
-Также есть общий утил-хэлпер - Debounce-функция `debounce`
-```ts
-export function debounce<T extends string>(
-  func: (arg: T) => void,
-  delay: number | undefined,
-): (arg: T) => void {
-  let timeout: NodeJS.Timeout | null = null;
-
-  return function (arg: T): void {
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-
-    timeout = setTimeout(() => {
-      func(arg);
-    }, delay);
-  };
-}
-```
-Debounce-функция использует дженерики именно для того, чтобы использоваться, например, в связке с input-полями и при этом избегать отключения тайп-чекинга с any.
-
-Пример использования:
-```tsx
-  const debouncedOnChange = useCallback(
-    debounce((newValue: string) => {
-      onChange(newValue);
-    }, debounceTime),
-    [onChange, debounceTime],
-  );
-
-// Используется в:
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-    if (isDebounced) {
-      debouncedOnChange(newValue);
-    } else {
-      onChange(newValue);
-    }
-```
-
-Также есть helper-функция `getUniqueSuggestions` для избавления от дубликатов. Т.к. формат данных массив объектов - не можем не воспользоваться структурой "ключ-значение" Set, в которой значения и являются ключами, т.е. уникальными:
-```ts
-
-```
-Пример использования:
-```tsx
-import { ICountry } from '../_types/interfaces';
-
-export const getUniqueSuggestions = (
-  suggestions: ICountry[],
-): string[] => {
-  return [...new Set(suggestions.map(country => country.name))];
-};
-```
-Как видно, helper всего лишь возвращает массив уникальных имён стран из массива объектов `suggestions`. Это сделано, чтобы получать список стран без повторений.
-
-1. `suggestions.map(country => country.name)`
-
-Для каждого объекта `country` в массиве `suggestions` извлекается значение свойства `name`. В результате получается массив имён стран.
-
-2. `new Set(...)`
-
-Переданный массив имён стран будет обработан, все дубликаты будут исключены. Например, специально был модифицирован mock-массив, добавив дубликаты для "Австралия", в результирующем наборе будет только одно "Австралия" блягодаря Set.
-
-![image](https://github.com/user-attachments/assets/58c586d9-bf3e-485e-a3d6-fddae81e1fe3)
-
-
-3. `[...new Set(...)]`
-
-Spread-оператор `...` используется для преобразования объекта `Set` обратно в массив.
-
+## Пояснения
 ### Store
 Введены два mobX-стора для каждого из контролов:
 1) `autoCompleteControlStore.ts`:
@@ -358,6 +247,121 @@ class ButtonControlStore {
 const buttonControlStore = new ButtonControlStore();
 export default buttonControlStore;
 ```
+> [!TIP]
+> Декораторы, а также методы при работе с со стейтом типа `runInAction` были использованы для более корректной работы реактивности MobX и лучшей читаемости.
+
+### Hooks
+У приложения есть общий хук для определения типа устройства/экрана - `useDeviceDetect`:
+```ts
+import { useEffect, useState } from 'react';
+
+/**
+ * Хук для определения типа устройства (мобильное/десктоп)
+ */
+const useDeviceDetect = (): boolean => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const handleResize = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobileDevice =
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(
+        userAgent,
+      );
+    const mobile = isMobileDevice || window.innerWidth < 840; // Определяем мобильное устройство по ширине экрана и user agent
+    setIsMobile(mobile);
+  };
+
+  useEffect(() => {
+    handleResize(); // Проверяем при первом рендере
+    window.addEventListener('resize', handleResize); // Добавляем обработчик события изменения размера окна
+
+    return () => {
+      window.removeEventListener('resize', handleResize); // Убираем обработчик при размонтировании
+    };
+  }, []);
+
+  return isMobile;
+};
+
+export default useDeviceDetect;
+```
+
+### Utils Helpers
+Также есть общий утил-хэлпер - Debounce-функция `debounce`
+```ts
+export function debounce<T extends string>(
+  func: (arg: T) => void,
+  delay: number | undefined,
+): (arg: T) => void {
+  let timeout: NodeJS.Timeout | null = null;
+
+  return function (arg: T): void {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    timeout = setTimeout(() => {
+      func(arg);
+    }, delay);
+  };
+}
+```
+Debounce-функция использует дженерики именно для того, чтобы использоваться, например, в связке с input-полями и при этом избегать отключения тайп-чекинга с any.
+
+Пример использования в приложении:
+```tsx
+  const debouncedOnChange = useCallback(
+    debounce((newValue: string) => {
+      onChange(newValue);
+    }, debounceTime),
+    [onChange, debounceTime],
+  );
+
+// Используется в:
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    if (isDebounced) {
+      debouncedOnChange(newValue);
+    } else {
+      onChange(newValue);
+    }
+```
+
+Также есть helper-функция `getUniqueSuggestions` для избавления от дубликатов. Т.к. формат данных массив объектов - не можем не воспользоваться структурой "ключ-значение" Set, в которой значения и являются ключами, т.е. уникальными:
+```ts
+import { ICountry } from '../_types/interfaces';
+
+export const getUniqueSuggestions = (
+  suggestions: ICountry[],
+): string[] => {
+  return [...new Set(suggestions.map(country => country.name))];
+};
+```
+
+Пример использования в приложении:
+```tsx
+//...
+const uniqueSuggestions = getUniqueSuggestions(
+    autoCompleteControlStore.suggestions,
+  )
+//...
+```
+Как видно, helper всего лишь возвращает массив уникальных имён стран из массива объектов `suggestions`. Это сделано, чтобы получать список стран без повторений.
+
+1. `suggestions.map(country => country.name)`
+Для каждого объекта `country` в массиве `suggestions` извлекается значение свойства `name`. В результате получается массив имён стран.
+
+2. `new Set(...)`
+Переданный массив имён стран будет обработан Set, все дубликаты будут исключены. Например, специально был модифицирован mock-массив, добавлены дубликаты для "Австралия", в результирующем наборе будет только одно "Австралия" благодаря Set.
+
+![image](https://github.com/user-attachments/assets/58c586d9-bf3e-485e-a3d6-fddae81e1fe3)
+
+3. `[...new Set(...)]`
+Spread-оператор `...` используется для преобразования объекта `Set` обратно в массив.
 
 ## Архитектура проекта
 
