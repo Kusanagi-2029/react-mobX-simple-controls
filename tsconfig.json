@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es6", // Указывает целевую версию JavaScript (ES6 или ES2015).
+    "lib": [
+      "dom", 
+      "dom.iterable",
+      "esnext"
+    ], // Поддержка DOM API. Поддержка итерации по DOM-элементам. Поддержка последних возможностей JavaScript.
+    "downlevelIteration": true, // Поддержка итерации в более старых версиях JS.
+    "allowJs": true, // Разрешает использование JavaScript-файлов в проекте TypeScript.
+    "skipLibCheck": true, // Пропускает проверку типов в библиотеках, чтобы ускорить компиляцию.
+    "esModuleInterop": true, // Обеспечивает совместимость между CommonJS и ES6 модулями.
+    "allowSyntheticDefaultImports": true, // Позволяет импортировать модули без экспортированного значения по умолчанию.
+    "strict": true, // Включает строгий режим проверки типов для повышения безопасности кода.
+    "experimentalDecorators": true, // Включает поддержку экспериментальных декораторов (например, в MobX).
+    "emitDecoratorMetadata": true, // Генерирует метаданные для декораторов, полезно для рефлексии.
+    "forceConsistentCasingInFileNames": true, // Обеспечивает согласованность регистра в именах файлов.
+    "noFallthroughCasesInSwitch": true, // Запрещает "проваливание" случаев в конструкциях switch.
+    "module": "esnext", // Указывает тип модуля, используемого в проекте.
+    "moduleResolution": "node", // Указывает метод разрешения модулей, как в Node.js.
+    "resolveJsonModule": true, // Позволяет импортировать JSON файлы как модули.
+    "isolatedModules": true, // Каждый файл должен рассматриваться как отдельный модуль.
+    "noEmit": true, // Запрещает генерацию выходных файлов (только проверка типов).
+    "jsx": "react-jsx" // Указывает, как обрабатывать JSX (использует новый трансформер JSX).
+  },
+  "include": [
+    "src",
+    "eslint.config.mjs"
+  ],  // Включает все файлы в каталоге src в компиляцию. Также включает файл конфигурации ESLint.
+  "exclude": ["node_modules", "**/*.spec.ts"] // Исключает node_modules и тестовые файлы из компиляции.
+}

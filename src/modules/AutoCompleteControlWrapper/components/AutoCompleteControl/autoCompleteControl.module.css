@@ -1,0 +1,46 @@
+.autoCompleteContainer,
+.autoCompleteContainerMobile {
+  padding: 0.5rem;
+}
+
+.suggestionsList,
+.suggestionsListMobile {
+  max-height: 20rem;
+  overflow-y: auto; /* Прокрутка по вертикали */
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background-color: white;
+  margin-top: 0.5rem;
+}
+
+.suggestionsListMobile {
+  max-height: 10rem;
+}
+
+img {
+  position: relative;
+  top: 1px;
+  width: 30px;
+}
+
+ul {
+  padding: 0;
+}
+
+.suggestionItem,
+.suggestionItemMobile {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  gap: 10px;
+}
+
+.suggestionItem:hover {
+  background-color: rgba(229, 231, 235, 1);
+}
+
+.suggestionFlag {
+  margin-right: 0.5rem;
+}

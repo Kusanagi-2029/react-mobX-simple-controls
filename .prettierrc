@@ -1,0 +1,16 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "trailingComma": "all",
+  "printWidth": 70,
+  "tabWidth": 2,
+  "arrowParens": "avoid",
+  "endOfLine": "crlf",
+  "jsxBracketSameLine": false,
+  "htmlWhitespaceSensitivity": "css",
+  "importOrder": ["^react$", "^@/", "^[^.]+$", "^[./].*\\.module\\.scss$"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

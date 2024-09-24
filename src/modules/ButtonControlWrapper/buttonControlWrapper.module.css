@@ -1,0 +1,10 @@
+.buttonControlWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.buttonControlWrapperMobile {
+  padding: 10px;
+}

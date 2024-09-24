@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400&display=swap');
+
+.autoCompleteControlWrapper,
+.autoCompleteControlWrapperMobile {
+  display: flex;
+  gap: 10px;
+
+  font-family: 'Helvetica Neue', sans-serif;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.autoCompleteControlWrapperMobile {
+  padding: 1rem;
+  flex-direction: column;
+}
+
+.autoCompleteControl,
+.autoCompleteControlDebounced,
+.autoCompleteControlMobile,
+.autoCompleteControlDebouncedMobile {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.autoCompleteControlDebounced,
+.autoCompleteControlDebouncedMobile {
+  background-color: #ededed;
+}
+
+.autoCompleteControl,
+.autoCompleteControlMobile {
+  border: 1px solid #ededed;
+}
+
+h2 {
+  font-family: 'Droid Sans', cursive;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.autoCompleteContainer {
+  margin-top: 1rem;
+}

@@ -1,0 +1,68 @@
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.buttonControl,
+.buttonControlMobile {
+  display: flex;
+  justify-content: space-between;
+  min-width: 600px;
+}
+
+.buttonControlMobile {
+  flex-direction: column;
+  min-width: auto;
+}
+
+.button {
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s, opacity 0.1s;
+  margin: 4px;
+  outline: none;
+}
+
+.disabled {
+  opacity: 0.5; /* Полу-прозрачный вид */
+  cursor: not-allowed; /* Курсор "запрещён" */
+}
+
+.desktopButton {
+  background-color: rgba(93, 95, 239, 1);
+}
+
+.desktopButton:hover {
+  background-color: rgba(239, 93, 168, 1);
+}
+
+.desktopButton:active {
+  transform: scale(0.95);
+}
+.desktopButton:focus {
+  opacity: 0.8;
+}
+
+.mobileButton:focus {
+  opacity: 0.8;
+}
+
+.mobileButton {
+  background-color: rgba(66, 86, 122, 1);
+}
+
+.mobileButton:hover {
+  background-color: rgba(93, 95, 239, 1);
+}
+
+.mobileButton:active {
+  transform: scale(0.95);
+}

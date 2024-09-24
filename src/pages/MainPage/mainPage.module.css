@@ -1,0 +1,28 @@
+.mainPage,
+.mainPageMobile {
+  min-height: 100vh;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: auto;
+}
+
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f4f8;
+}
+
+.mainPageMobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f4f8;
+}
+
+@media (max-width: 840px) {
+  .mainPageMobile {
+    font-size: 14px;
+  }
+}

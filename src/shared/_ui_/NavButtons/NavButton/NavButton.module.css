@@ -1,0 +1,65 @@
+.button,
+.errorButton {
+  width: 60px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  text-align: center;
+  background-color: rgba(56, 119, 238, 1);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.button:hover,
+.errorButton:hover {
+  background-color: rgba(56, 119, 238, 0.7);
+}
+
+.button:focus,
+.errorButton:focus {
+  background-color: rgba(56, 119, 238, 0.7);
+  border: 1px solid rgba(56, 119, 238, 1);
+}
+
+.button:active,
+.errorButton:active {
+  background-color: rgba(56, 119, 238, 0.5);
+}
+
+.errorButton {
+  width: 50%;
+  max-width: 400px;
+  height: 50px;
+
+  font-size: 16px;
+
+  background-color: rgb(252, 70, 107);
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.errorButton:hover {
+  background-color: rgb(252, 70, 107, 0.7);
+}
+
+.errorButton:focus {
+  background-color: rgb(252, 70, 107, 0.7);
+  border: 1px solid rgb(252, 70, 107);
+}
+
+.errorButton:active {
+  background-color: rgb(252, 70, 107, 0.5);
+}
+
+.toMainPageButton {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 4;
+}
