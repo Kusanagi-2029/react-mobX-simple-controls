@@ -129,9 +129,26 @@ serve -s build
 > Это неотвратимая операция `eject`!
 
 ## DEMO
+
+**Desktop**
+**Вертикальная ориентация**
+
 ![Скрин 1](https://github.com/user-attachments/assets/8a976bf0-c23d-4ef4-a885-010ee557d81e)
 
+**Горизонтальная ориентация**
+
 ![Скрин 2](https://github.com/user-attachments/assets/4d93996f-c8a3-4b2a-888b-609fafa31485)
+
+**Mobile**
+**Вертикальная ориентация**
+
+![Скрин 4 1 - Мобильная ориентация](https://github.com/user-attachments/assets/67102b95-5d90-4c16-b4e1-7ff9216f4613) 
+![Скрин 4 2 - Мобильная ориентация](https://github.com/user-attachments/assets/dd6d5cab-9ca6-4f6b-b82f-36ac132f8be4)
+
+
+**Горизонтальная ориентация**
+
+![Скрин 4 3 - Мобильная ориентация](https://github.com/user-attachments/assets/5faf1610-1193-4086-9a50-2da711d70122)
 
 Убраны дубликаты данных - кейс "Австралия":
 ![Скрин 3 - Дубликаты](https://github.com/user-attachments/assets/f0b9643d-7495-43cb-b6d8-c15282ec4baf)
