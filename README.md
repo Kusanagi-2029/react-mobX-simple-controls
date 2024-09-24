@@ -273,69 +273,49 @@ export default buttonControlStore;
 - **Упрощенное тестирование и поддержка**: Каждый модуль можно тестировать и поддерживать отдельно от других.
 
 ### Container-presenter pattern
-1) Пример - компонент **AutoCompleteControlContainer (Container)** - имеет свою определённую логику, состоит из компонентов, вынесенных в отдельные файлы для лучшего разделения логики и UI.
-Таким образом, компонент **AutoCompleteControlContainer** разделяет логику и UI-часть, делегируя её подробную часть другому компоненту: **AutoCompleteControl**:
+1) Пример - компонент **ButtonControlContainer (Container)** - имеет свою определённую логику и управляет доступом к глобальному хранилищу с state'ом, состоит из компонентов, вынесенных в отдельные файлы (в данном случае одного) для лучшего разделения логики и UI.
+Таким образом, компонент **ButtonControlContainer** разделяет логику взаимодействия с хранилищем и UI-часть, делегируя её подробную часть другому компоненту: **ButtonControl**:
 ```tsx
 //...
-  return (
-    <AutoCompleteControl
-      inputValue={autoCompleteControlStore.inputValue}
-      uniqueSuggestions={uniqueSuggestions}
-      maxSuggestions={maxSuggestions}
-      onInputChange={handleInputChange}
-      onSuggestionClick={handleSuggestionClick}
-      isDebounced={isDebounced}
-      debounceTime={debounceTime}
-    />
-  );
-//...
-```
-2) В свою очередь, компонент **AutoCompleteControl (presenter)** принимает данные от **AutoCompleteControlContainer (Container)** через пропсы и возвращает блок из элементов и общих переиспользуемых UI-компонентов:
-```tsx
-//...
-  return (
-    <div
-      className={
-        isMobile
-          ? styles.autoCompleteContainerMobile
-          : styles.autoCompleteContainer
+const ButtonControlContainer: React.FC<IButtonControlContainerProps> =
+  observer(({ buttons }) => {
+    const handleButtonClick = (actionType: string) => {
+      switch (actionType) {
+        case 'clear':
+          buttonControlStore.clearInput();
+          break;
+        case 'helloWorld':
+          buttonControlStore.setInputValue('Hello world!');
+          break;
+        case 'checkNumber':
+          const number = parseFloat(buttonControlStore.inputValue);
+          if (!isNaN(number)) alert(`Число: ${number}`);
+          break;
+        case 'showAlert':
+          alert(buttonControlStore.inputValue);
+          break;
+        default:
+          break;
       }
-    >
-      <DebouncedInput
-        value={inputValue}
-        onChange={onInputChange}
-        isDebounced={isDebounced}
-        debounceTime={debounceTime}
+    };
+
+    const handleInputChange = (value: string) => {
+      buttonControlStore.setInputValue(value);
+    };
+
+    return (
+      <ButtonControl
+        buttons={buttons}
+        inputValue={buttonControlStore.inputValue}
+        onInputChange={handleInputChange}
+        onButtonClick={handleButtonClick}
+        isDebounced={false}
       />
-      <ul
-        className={
-          isMobile
-            ? styles.suggestionsListMobile
-            : styles.suggestionsList
-        }
-      >
-        {uniqueSuggestions
-          .slice(0, maxSuggestions)
-          .map((country, index) => (
-            <li
-              key={index}
-              onClick={() => onSuggestionClick(country.name)}
-              className={
-                isMobile
-                  ? styles.suggestionItemMobile
-                  : styles.suggestionItem
-              }
-            >
-              <img src={country.flag} alt={`${country.name} flag`} />
-              {country.name} - {country.fullName}
-            </li>
-          ))}
-      </ul>
-    </div>
-  );
+    );
+  });
 //...
 ```
-3) Самый общий shared UI-компонент input-поля представлен в виде атомарного(неделимого) компонента, который, в свою очередь, является **(presenter)** для компонента **AutoCompleteControl**, выступающим в качестве **Container** относительно данного **DebouncedInput**, принимающим значения и функцию в виде пропсов:
+2) В свою очередь, компонент **ButtonControl (presenter)** принимает данные от **ButtonControlContainer (Container)** через пропсы и возвращает блок из элементов и общего переиспользуемого UI-компонента **DebouncedInput**:
 ```tsx
 //...
       <DebouncedInput
@@ -345,6 +325,11 @@ export default buttonControlStore;
         debounceTime={debounceTime}
       />
 //...
+```
+3) Самый общий shared UI-компонент input-поля представлен в виде атомарного(неделимого) компонента, который, в свою очередь, является **(presenter)** для компонента **ButtonControl**, выступающим в качестве **Container** относительно данного **DebouncedInput**, принимающим значения и функцию в виде пропсов:
+```tsx
+//...
+
 const DebouncedInput: React.FC<IDebouncedInputProps> = ({
   value,
   onChange,
